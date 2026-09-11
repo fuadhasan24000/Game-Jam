@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://c3mmenu887711"]
 
 [ext_resource type="FontFile" uid="uid://c2a0ljdicyp7d" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="1_font"]
-[ext_resource type="Script" uid="uid://xg6gw0s4iqpj" path="res://scripts/start_menu.gd" id="1_thu50"]
+[ext_resource type="Script" uid="uid://xg6gw0s4iqpj" path="res://script/start_menu.gd" id="1_thu50"]
+[ext_resource type="Texture2D" uid="uid://b78m1pxjftduj" path="res://assets/Download Fantasy Wide Sci-fi Martian Background For Ui Game for free.jpg" id="2_p6ge0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
 bg_color = Color(0.18, 0.22, 0.35, 0.9)
@@ -48,16 +49,13 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_thu50")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1655454563]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.09, 0.11, 0.18, 1)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2102644151]
+position = Vector2(582, 338)
+scale = Vector2(2.8400002, 2.8400002)
+texture = ExtResource("2_p6ge0")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1578075364]
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
