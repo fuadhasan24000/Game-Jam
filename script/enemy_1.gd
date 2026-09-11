@@ -1,0 +1,105 @@
+extends CharacterBody2D
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+var health = 60
+# Called when the node enters the scene tree for the first time.
+var isdamaged = false
+var isdead = false
+var isattacking = false 
+@onready var right: RayCast2D = $right
+@onready var left: RayCast2D = $left
+@onready var below: RayCast2D = $below
+@onready var collision_shape_2d: CollisionShape2D = $AttackArea/CollisionShape2D
+
+var direction:int =1
+
+enum State { PATROL, CHASE }
+
+@export var speed := 150
+@export var chase_speed := 250.0
+
+var state: State = State.PATROL
+var player: Node2D = null
+var patrol_direction := 1.0
+var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+@onready var detection_area: Area2D = $DetectionArea
+@onready var sprite: Sprite2D = $Sprite2D
+func _process(delta: float) -> void:
+	pass
+	
+
+func _physics_process(delta: float) -> void:
+	if not is_on_floor():
+		velocity.y += gravity * delta
+
+	match state:
+		State.PATROL:
+			if not isdamaged:
+				animated_sprite_2d.play("walk ")
+			if right.is_colliding():
+				direction = -1				
+		
+			elif left.is_colliding():
+				direction = 1
+				
+			elif not below.is_colliding():
+				direction = -direction
+				animated_sprite_2d.flip_h = direction <0
+			if direction == 1:
+				animated_sprite_2d.flip_h = false
+			elif direction == -1:
+				animated_sprite_2d.flip_h = true
+
+			velocity.x = direction * speed
+		State.CHASE:
+			if player:
+				var direction = sign(player.global_position.x - global_position.x)
+				velocity.x = direction * chase_speed
+				
+				animated_sprite_2d.flip_h = direction <0
+
+	move_and_slide()
+
+
+
+func _on_detection_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		player = body
+		state = State.CHASE
+
+func _on_detection_area_body_exited(body: Node2D) -> void:
+	if body == player:
+		player = null
+		state = State.PATROL
+
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group("melee1"):
+		health= health - 20
+		print(health)
+		isdamaged =true
+		
+		if health <= 0:
+			isdead= true
+			animated_sprite_2d.play("death")
+		if not isdead:
+			animated_sprite_2d.play("damage")
+			print("blas")
+			
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if animated_sprite_2d.animation == "damage":
+		isdamaged= false
+	if animated_sprite_2d.animation == "death":
+		queue_free()
+	if animated_sprite_2d.animation == "attack":
+		isattacking = false
+		collision_shape_2d.disabled = false
+
+
+func _on_attack_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		animated_sprite_2d.play("attack")
+		isattacking = true
+		collision_shape_2d.disabled = true

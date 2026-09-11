@@ -314,18 +314,25 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvp55"]
 size = Vector2(17, 26)
 
-[node name="E1" type="Area2D" unique_id=1380409492]
+[node name="enemy" type="CharacterBody2D" unique_id=212705415]
 script = ExtResource("1_2y4bb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1274004039]
 sprite_frames = SubResource("SpriteFrames_xtwfg")
-animation = &"damage"
+animation = &"move"
 autoplay = "idle"
+frame_progress = 0.8020129
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1510602459]
+[node name="Area2D" type="Area2D" parent="." unique_id=167955643 groups=["enemy hitbox"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1510602459]
 position = Vector2(0.5, 2)
 shape = SubResource("RectangleShape2D_tvp55")
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[node name="Area2D2" type="Area2D" parent="." unique_id=1820668221]
+
+[node name="Area2D3" type="Area2D" parent="." unique_id=80813056]
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="AnimatedSprite2D" method="_on_animation_finished"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
