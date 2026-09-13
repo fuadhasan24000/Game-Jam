@@ -160,7 +160,8 @@ texture = ExtResource("1_ytw46")
 3:15/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_xtwfg"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_q0q7k")
 
 [node name="test level" type="Node2D" unique_id=1084304708]
@@ -180,8 +181,8 @@ limit_bottom = 657
 
 [node name="enemy" parent="." unique_id=1282545768 instance=ExtResource("3_ow80b")]
 position = Vector2(615, 222)
-scale = Vector2(3, 3)
+scale = Vector2(2, 2)
 
 [node name="enemy2" parent="." unique_id=212705415 instance=ExtResource("4_q0q7k")]
-position = Vector2(-645, 390)
-scale = Vector2(3, 3)
+position = Vector2(-516, 356)
+scale = Vector2(1.984, 2)

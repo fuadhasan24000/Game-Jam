@@ -2,9 +2,14 @@
 
 [ext_resource type="Script" uid="uid://pcctgws2ud5j" path="res://script/enemy_1.gd" id="1_0t4by"]
 [ext_resource type="Texture2D" uid="uid://bharcx77ih0xr" path="res://assets/E2.png" id="1_fv6j8"]
+[ext_resource type="Shader" uid="uid://dr6yi87bdfvlt" path="res://Shader/enemy.gdshader" id="2_aqd53"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fv6j8"]
 size = Vector2(14, 29)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sd68r"]
+shader = ExtResource("2_aqd53")
+shader_parameter/is_damaged = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0t4by"]
 atlas = ExtResource("1_fv6j8")
@@ -163,7 +168,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"attack",
-"speed": 8.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -192,7 +197,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"damage",
-"speed": 6.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -221,7 +226,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"death",
-"speed": 5.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -260,6 +265,8 @@ radius = 120.14991
 size = Vector2(36, 20)
 
 [node name="enemy" type="CharacterBody2D" unique_id=1282545768]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_0t4by")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1451679457 groups=["enemy hitbox"]]
@@ -267,24 +274,26 @@ position = Vector2(-2, 0.5)
 shape = SubResource("RectangleShape2D_fv6j8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=583620798]
+material = SubResource("ShaderMaterial_sd68r")
 sprite_frames = SubResource("SpriteFrames_q8f7y")
-animation = &"attack"
+animation = &"walk "
 autoplay = "walk "
-frame = 7
-frame_progress = 1.0
 
 [node name="hitbox" type="Area2D" parent="." unique_id=1057104283 groups=["enemy hitbox"]]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=1502408426]
 position = Vector2(-2, 0.5)
 shape = SubResource("RectangleShape2D_fv6j8")
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=828641267]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1068358417]
 shape = SubResource("CircleShape2D_0t4by")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=1443571803 groups=["harm"]]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=251865605]
 shape = SubResource("RectangleShape2D_aqd53")
@@ -297,6 +306,9 @@ target_position = Vector2(-8, 0)
 
 [node name="below" type="RayCast2D" parent="." unique_id=1772247935]
 target_position = Vector2(0, 26)
+
+[node name="ray" type="RayCast2D" parent="." unique_id=363072023]
+target_position = Vector2(120, 0)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]

@@ -2,8 +2,13 @@
 
 [ext_resource type="Script" uid="uid://bm5fgarsvlvww" path="res://script/player.gd" id="1_s4jxa"]
 [ext_resource type="Texture2D" uid="uid://cx8e6jjyohqmw" path="res://assets/R2.png" id="2_fvtld"]
+[ext_resource type="Shader" uid="uid://dr6yi87bdfvlt" path="res://Shader/enemy.gdshader" id="2_s4jxa"]
 [ext_resource type="Texture2D" uid="uid://dclb73mmu1d5n" path="res://assets/R1.png" id="3_ct4mp"]
 [ext_resource type="Texture2D" uid="uid://b8cxjlfaer4im" path="res://assets/R2flip.png" id="3_s4jxa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s4jxa"]
+shader = ExtResource("2_s4jxa")
+shader_parameter/is_damaged = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fvtld"]
 atlas = ExtResource("3_ct4mp")
@@ -473,7 +478,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"damage",
-"speed": 10.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -502,7 +507,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"death",
-"speed": 8.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -589,7 +594,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"run",
-"speed": 10.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -647,7 +652,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"walk",
-"speed": 15.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -683,21 +688,20 @@ animations = [{
 size = Vector2(1.8321278, 17.163391)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ywa8g"]
-size = Vector2(171, 106)
+size = Vector2(289, 106)
 
 [node name="player" type="CharacterBody2D" unique_id=2000411160 groups=["player"]]
+light_mask = 16
+visibility_layer = 16
 position = Vector2(6.5263147, -2)
 script = ExtResource("1_s4jxa")
 
 [node name="animation" type="AnimatedSprite2D" parent="." unique_id=899687052]
+material = SubResource("ShaderMaterial_s4jxa")
 position = Vector2(9, -16)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_xtwfg")
-animation = &"death"
-
-[node name="Marker2D" type="Marker2D" parent="animation" unique_id=760330005]
-position = Vector2(8.894736, 3.6)
-scale = Vector2(0.19999999, 0.19999999)
+animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1414824853 groups=["player"]]
 light_mask = 2
@@ -706,21 +710,42 @@ position = Vector2(9.000061, -1)
 scale = Vector2(30.041775, 6.292462)
 shape = SubResource("RectangleShape2D_ow80b")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1884840740 groups=["melee1"]]
+[node name="attack_area" type="Area2D" parent="." unique_id=1884840740 groups=["melee1"]]
+collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=717769875 groups=["melee1"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attack_area" unique_id=717769875 groups=["melee1"]]
 position = Vector2(11.973689, 2)
 shape = SubResource("RectangleShape2D_ywa8g")
 disabled = true
 
 [node name="hurtbox" type="Area2D" parent="." unique_id=462085300]
+collision_mask = 2
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="hurtbox" unique_id=1707996236 groups=["player"]]
 position = Vector2(9.000061, -1)
 scale = Vector2(30.041775, 6.292462)
 shape = SubResource("RectangleShape2D_ow80b")
 
+[node name="melee" type="Timer" parent="." unique_id=2087900976]
+wait_time = 0.5
+one_shot = true
+
+[node name="gun" type="Timer" parent="." unique_id=1820099747]
+wait_time = 0.5
+one_shot = true
+
+[node name="damage" type="Timer" parent="." unique_id=2115066634]
+wait_time = 0.5
+one_shot = true
+
+[node name="death" type="Timer" parent="." unique_id=166490374]
+wait_time = 0.5
+one_shot = true
+
+[node name="dash" type="Timer" parent="." unique_id=99417955]
+one_shot = true
+
 [connection signal="animation_finished" from="animation" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="animation_finished" from="animation" to="." method="_on_animation_animation_finished"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]
 [connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]

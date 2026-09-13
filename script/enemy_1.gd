@@ -1,7 +1,7 @@
 extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 var health = 60
-# Called when the node enters the scene tree for the first time.
+
 var isdamaged = false
 var isdead = false
 var isattacking = false 
@@ -14,8 +14,8 @@ var direction:int =1
 
 enum State { PATROL, CHASE }
 
-@export var speed := 150
-@export var chase_speed := 250.0
+@export var speed := 80
+@export var chase_speed := 160
 
 var state: State = State.PATROL
 var player: Node2D = null
@@ -25,7 +25,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var detection_area: Area2D = $DetectionArea
 @onready var sprite: Sprite2D = $Sprite2D
 func _process(delta: float) -> void:
-	pass
+	animated_sprite_2d.material.set_shader_parameter("is_damaged", isdamaged)
 	
 
 func _physics_process(delta: float) -> void:
@@ -55,7 +55,6 @@ func _physics_process(delta: float) -> void:
 			if player:
 				var direction = sign(player.global_position.x - global_position.x)
 				velocity.x = direction * chase_speed
-				
 				animated_sprite_2d.flip_h = direction <0
 
 	move_and_slide()

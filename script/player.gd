@@ -4,17 +4,23 @@ extends CharacterBody2D
 
 @onready var animation: AnimatedSprite2D = $animation
 const BULLET = preload("res://scene/bullet.tscn")
-
-var health = 100
+@onready var dashd: Timer = $dashd
+var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+var health = 10000
 const melee_damage = 20 
 var isattaking = false;
 var SPEED =200
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -1000
 var isshooting = false
 var isdamaged = false
 var isdead = false
+var isdashing = false
 var isfacing:int
-
+@onready var melee: Timer = $melee
+@onready var gun: Timer = $gun
+@onready var damage: Timer = $damage
+@onready var death: Timer = $death
+@onready var dash: Timer = $dash
 
 
 	
@@ -23,7 +29,7 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		velocity.y += gravity *delta*2
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump ") and is_on_floor():
@@ -40,12 +46,15 @@ func _physics_process(delta: float) -> void:
 		isfacing = -1
 	if Input.is_action_just_pressed("attack melee"):
 		animation.play("attack(melee)")
+		melee.start()
 		isattaking = true 
-		$Area2D/CollisionShape2D.disabled = false
+		$attack_area/CollisionShape2D.disabled = false
 	if Input.is_action_just_pressed("fire"):
 		animation.play("attack(gun)")
+		gun.start()
 		isshooting= true
-	if isattaking==false and isshooting==false and isdamaged==false and isdead==false:
+
+	if isattaking==false and isshooting==false and isdamaged==false and isdead==false and isdashing == false:
 		if is_on_floor():
 			if direction !=0 and Input.is_action_pressed("run"):
 				animation.play("run")
@@ -56,8 +65,15 @@ func _physics_process(delta: float) -> void:
 		else:
 			animation.play("jump")
 	
-
-	if direction and Input.is_action_pressed("run"):
+	if direction and Input.is_action_just_pressed("dash") and dash.is_stopped():
+		dash.start()
+		isdashing = true
+		animation.play("run")
+		await get_tree().create_timer(.2).timeout
+		isdashing = false
+	if isdashing:
+		velocity.x = direction * SPEED*15
+	elif direction and Input.is_action_pressed("run"):
 		velocity.x = direction * SPEED*2 
 	elif direction:
 		velocity.x = direction * SPEED 
@@ -65,22 +81,18 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
-
-
-
-
-
-
-func _on_animation_animation_finished() -> void:
-	if animation.animation == "attack(melee)":
+	if melee.is_stopped():
 		isattaking = false
-		$Area2D/CollisionShape2D.disabled = true
-	if animation.animation == "attack(gun)":
+		$attack_area/CollisionShape2D.disabled = true
+	if gun.is_stopped():
 		isshooting = false
-	if animation.animation == "damage":
+	if damage.is_stopped():
 		isdamaged= false
-	if animation.animation == "death":
+	if death.is_stopped():
 		pass
+
+
+
 
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
@@ -92,10 +104,13 @@ func _on_hurtbox_area_entered(area: Area2D) -> void:
 		if health <= 0:
 			isdead= true
 			animation.play("death")
+			death.start()
 		if not isdead:
 			animation.play("damage")
-			print("blas")
+			damage.start()
+			
 func _process(delta: float) -> void:
+	animation.material.set_shader_parameter("is_damaged", isdamaged)
 	if Input.is_action_just_pressed("fire"):
 		
 		var bullet_instance = BULLET.instantiate()

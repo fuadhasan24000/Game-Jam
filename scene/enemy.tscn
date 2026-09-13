@@ -2,6 +2,14 @@
 
 [ext_resource type="Script" uid="uid://ctsvtbjuone2d" path="res://script/e_1.gd" id="1_2y4bb"]
 [ext_resource type="Texture2D" uid="uid://n4rgjdul2t7n" path="res://assets/E1 pro.png" id="1_812uc"]
+[ext_resource type="Shader" uid="uid://dr6yi87bdfvlt" path="res://Shader/enemy.gdshader" id="2_8u16h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tvp55"]
+size = Vector2(17, 26)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xtwfg"]
+shader = ExtResource("2_8u16h")
+shader_parameter/is_damaged = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d425e"]
 atlas = ExtResource("1_812uc")
@@ -192,7 +200,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"damage",
-"speed": 10.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -221,7 +229,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"death",
-"speed": 9.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -250,7 +258,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"fire",
-"speed": 5.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -279,7 +287,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"idle",
-"speed": 8.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -308,31 +316,54 @@ animations = [{
 }],
 "loop": 1,
 "name": &"move",
-"speed": 5.0
+"speed": 16.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tvp55"]
-size = Vector2(17, 26)
+[sub_resource type="CircleShape2D" id="CircleShape2D_xtwfg"]
+radius = 150.00333
 
 [node name="enemy" type="CharacterBody2D" unique_id=212705415]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_2y4bb")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1274004039]
-sprite_frames = SubResource("SpriteFrames_xtwfg")
-animation = &"move"
-autoplay = "idle"
-frame_progress = 0.8020129
-
-[node name="Area2D" type="Area2D" parent="." unique_id=167955643 groups=["enemy hitbox"]]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1510602459]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=986900826]
 position = Vector2(0.5, 2)
 shape = SubResource("RectangleShape2D_tvp55")
 
-[node name="Area2D2" type="Area2D" parent="." unique_id=1820668221]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1274004039]
+material = SubResource("ShaderMaterial_xtwfg")
+sprite_frames = SubResource("SpriteFrames_xtwfg")
+animation = &"move"
+autoplay = "idle"
 
-[node name="Area2D3" type="Area2D" parent="." unique_id=80813056]
+[node name="hitbox" type="Area2D" parent="." unique_id=167955643 groups=["enemy hitbox"]]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=1510602459]
+position = Vector2(0.5, 2)
+shape = SubResource("RectangleShape2D_tvp55")
+
+[node name="detection_area" type="Area2D" parent="." unique_id=1820668221]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area" unique_id=1466715431]
+shape = SubResource("CircleShape2D_xtwfg")
+
+[node name="right" type="RayCast2D" parent="." unique_id=812046401]
+target_position = Vector2(14, 0)
+
+[node name="left" type="RayCast2D" parent="." unique_id=1820290441]
+target_position = Vector2(-10, 0)
+
+[node name="below" type="RayCast2D" parent="." unique_id=426956232]
+target_position = Vector2(0, 16)
+
+[node name="Timer" type="Timer" parent="." unique_id=1104532749]
+one_shot = true
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="AnimatedSprite2D" method="_on_animation_finished"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="hitbox" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]

@@ -1,19 +1,20 @@
-[gd_scene format=3 uid="uid://dt732j2otr2bx"]
+[gd_scene format=3 uid="uid://b8sii1qv1qgpg"]
 
-[ext_resource type="Texture2D" uid="uid://ii88knk01l27" path="res://assets/Laser Sprites/01.png" id="1_qwydi"]
-[ext_resource type="Script" uid="uid://ddohlsv01fhot" path="res://script/bullet.gd" id="1_xw300"]
+[ext_resource type="Script" uid="uid://crgrf5wc00mjk" path="res://script/bullet_e.gd" id="1_n8q2h"]
+[ext_resource type="Texture2D" uid="uid://bv6ws2jofd1dh" path="res://assets/Laser Sprites/02.png" id="2_n8q2h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xtwfg"]
 radius = 7.0
 
 [node name="bullet" type="Node2D" unique_id=1950681147]
-script = ExtResource("1_xw300")
+scale = Vector2(3, 3)
+script = ExtResource("1_n8q2h")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=429142138]
-texture = ExtResource("1_qwydi")
+texture = ExtResource("2_n8q2h")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1397152133 groups=["melee1"]]
-collision_mask = 2
+[node name="Area2D" type="Area2D" parent="." unique_id=1397152133 groups=["harm"]]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2106727548 groups=["melee1"]]
 position = Vector2(5, 0)
