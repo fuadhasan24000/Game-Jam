@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://bihvbrqvxvyb0"]
+
+[ext_resource type="Texture2D" uid="uid://cln4oeybtcucl" path="res://assets/factory/1 Tiles/Tileset.png" id="1_txm1n"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gwlyt"]
+load_path = "res://.godot/imported/Tileset.png-0a561b8e548196cfa5b35963258692b8.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plebf"]
+size = Vector2(94, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rd3j5"]
+size = Vector2(29, 246)
+
+[node name="factory platform" type="AnimatableBody2D" unique_id=1629015836]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2006399703]
+texture = SubResource("CompressedTexture2D_gwlyt")
+region_enabled = true
+region_rect = Rect2(128.12047, 128.40506, 95.37227, 31.094604)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1962123646]
+shape = SubResource("RectangleShape2D_plebf")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=558494162]
+position = Vector2(0, 55)
+texture = ExtResource("1_txm1n")
+region_enabled = true
+region_rect = Rect2(96.5542, 139.27126, 30.623177, 80.98912)
+
+[node name="Sprite2D3" type="Sprite2D" parent="." unique_id=1649463314]
+position = Vector2(0, 136)
+texture = ExtResource("1_txm1n")
+region_enabled = true
+region_rect = Rect2(96.5542, 139.27126, 30.623177, 80.98912)
+
+[node name="Sprite2D4" type="Sprite2D" parent="." unique_id=634881447]
+position = Vector2(0, 216)
+texture = ExtResource("1_txm1n")
+region_enabled = true
+region_rect = Rect2(96.5542, 139.27126, 30.623177, 80.98912)
+
+[node name="Sprite2D5" type="Sprite2D" parent="." unique_id=526798464]
+position = Vector2(0, 296)
+texture = ExtResource("1_txm1n")
+region_enabled = true
+region_rect = Rect2(96.5542, 139.27126, 30.623177, 80.98912)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=2131181640]
+position = Vector2(0.5, 133)
+shape = SubResource("RectangleShape2D_rd3j5")

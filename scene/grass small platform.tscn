@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bbt8m2ulga7ry"]
+
+[ext_resource type="Texture2D" uid="uid://uiumgcle84ja" path="res://assets/magic/PNG/Tileset.png" id="1_idb8f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plebf"]
+size = Vector2(26, 13)
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" unique_id=116708457]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=34683028]
+texture = ExtResource("1_idb8f")
+region_enabled = true
+region_rect = Rect2(221.79079, 258.03726, 35.763565, 31.384735)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1350979213]
+position = Vector2(0, 3.5)
+shape = SubResource("RectangleShape2D_plebf")
