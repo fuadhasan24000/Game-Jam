@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://0gy2gewv4cl5"]
+
+[ext_resource type="Texture2D" uid="uid://b5b4w5mu7r4wd" path="res://assets/Legacy-Fantasy - High Forest 2.3/tile/Tiles.png" id="1_cnjt4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plebf"]
+size = Vector2(44, 15)
+
+[node name="platform 2" type="AnimatableBody2D" unique_id=1721553345]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=928474228]
+texture = ExtResource("1_cnjt4")
+region_enabled = true
+region_rect = Rect2(176.7685, 234.79463, 48.27704, 23.260056)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1685113511]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_plebf")
+one_way_collision = true

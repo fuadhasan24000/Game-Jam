@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://b8yfaelpdhcq8"]
+
+[ext_resource type="VideoStream" uid="uid://cje7oeqvswrg" path="res://assets/cutScene2.ogv" id="1_txq27"]
+
+[sub_resource type="GDScript" id="GDScript_txq27"]
+script/source = "extends Control
+
+@onready var video_player : VideoStreamPlayer = $VideoStreamPlayer
+const LEVEL_1_PATH: String = \"res://levels/level_zero.tscn\"
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	video_player.visible = false # Replace with function body.
+	await get_tree().create_timer(2).timeout
+	video_player.visible = true
+	video_player.play()
+	video_player.finished.connect(_on_video_finished)
+	
+func _on_video_finished() -> void:
+	get_tree().change_scene_to_file(LEVEL_1_PATH)
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(\"ui_accept\"):
+		get_tree().change_scene_to_file(LEVEL_1_PATH)
+	
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_plebf"]
+
+[node name="CutScene" type="Control" unique_id=698970458]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_txq27")
+
+[node name="Label" type="Label" parent="." unique_id=1595552840]
+z_index = 2
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -99.0
+offset_top = 5.0
+offset_right = -8.862793
+offset_bottom = 43.08004
+grow_horizontal = 0
+scale = Vector2(1.0308304, 1.0535764)
+text = "Skip (Enter)"
+label_settings = SubResource("LabelSettings_plebf")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=508367206]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=66746115]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("1_txq27")
+expand = true

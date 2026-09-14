@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://ctiun3dvfckv"]
+
+[ext_resource type="Texture2D" uid="uid://uiumgcle84ja" path="res://assets/magic/PNG/Tileset.png" id="1_g78ml"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plebf"]
+size = Vector2(51, 15)
+
+[node name="grase platform" type="AnimatableBody2D" unique_id=1974242675]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=862081083]
+texture = ExtResource("1_g78ml")
+region_enabled = true
+region_rect = Rect2(224.33101, 188.82733, 64.314804, 34.4057)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1461719030]
+position = Vector2(2.5, 6.5)
+shape = SubResource("RectangleShape2D_plebf")
+one_way_collision = true
