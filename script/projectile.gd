@@ -1,5 +1,4 @@
 extends CharacterBody2D
-@onready var timer: Timer = $Timer
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 # Called when the node enters the scene tree for the first time.
 @export var SPEED = 100
@@ -20,7 +19,7 @@ func _physics_process(delta):
 		velocity.y = -SPEED*(.707106)+ gravity * time
 	
 	else:
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(.3).timeout
 		collision_shape_2d_2.disabled = false
 		sprite_2d.hide()
 		explosion.show()

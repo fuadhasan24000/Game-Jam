@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_xtwfg"]
 radius = 7.0
 
-[node name="bullet" type="Node2D" unique_id=1950681147]
+[node name="bullet" type="Node2D" unique_id=1434862466]
 script = ExtResource("1_xw300")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=429142138]
@@ -21,6 +21,13 @@ shape = SubResource("CircleShape2D_xtwfg")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=272172671]
 rect = Rect2(-23, -13, 42, 27)
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=737421287]
+position = Vector2(5, 0)
+target_position = Vector2(12, 0)
+collision_mask = 7
+collide_with_areas = true
+collide_with_bodies = false
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

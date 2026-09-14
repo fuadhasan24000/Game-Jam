@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_xtwfg"]
 radius = 7.0
 
-[node name="bullet" type="Node2D" unique_id=1950681147]
+[node name="bullet" type="CharacterBody2D" unique_id=1360700492]
 scale = Vector2(3, 3)
 script = ExtResource("1_n8q2h")
 

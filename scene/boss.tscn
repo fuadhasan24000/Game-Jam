@@ -173,35 +173,35 @@ region = Rect2(438, 128, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7eobg"]
 atlas = ExtResource("2_et0im")
-region = Rect2(4, 66, 62, 62)
+region = Rect2(4, 65, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ba372"]
 atlas = ExtResource("2_et0im")
-region = Rect2(66, 66, 62, 62)
+region = Rect2(66, 65, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bys6a"]
 atlas = ExtResource("2_et0im")
-region = Rect2(128, 66, 62, 62)
+region = Rect2(128, 65, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1xjqu"]
 atlas = ExtResource("2_et0im")
-region = Rect2(190, 66, 62, 62)
+region = Rect2(190, 65, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t0rqt"]
 atlas = ExtResource("2_et0im")
-region = Rect2(252, 66, 62, 62)
+region = Rect2(252, 65, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0iyga"]
 atlas = ExtResource("2_et0im")
-region = Rect2(314, 66, 62, 62)
+region = Rect2(314, 65, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c1uqc"]
 atlas = ExtResource("2_et0im")
-region = Rect2(376, 66, 62, 62)
+region = Rect2(376, 65, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a56n4"]
 atlas = ExtResource("2_et0im")
-region = Rect2(438, 66, 62, 62)
+region = Rect2(438, 65, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p4hqd"]
 atlas = ExtResource("2_et0im")
@@ -464,7 +464,7 @@ shape = SubResource("RectangleShape2D_xtwfg")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1792249235]
 material = SubResource("ShaderMaterial_fl70q")
 sprite_frames = SubResource("SpriteFrames_xtwfg")
-animation = &"pause"
+animation = &"move"
 autoplay = "move"
 
 [node name="hitbox2" type="Area2D" parent="." unique_id=412565442 groups=["enemy hitbox"]]
@@ -500,7 +500,6 @@ disabled = true
 one_shot = true
 
 [node name="Bomb_delay" type="Timer" parent="." unique_id=1078977414]
-wait_time = 2.0
 one_shot = true
 
 [node name="C1" type="Timer" parent="." unique_id=471382735]

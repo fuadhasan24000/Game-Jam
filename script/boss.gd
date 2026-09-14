@@ -74,8 +74,6 @@ func _physics_process(delta: float) -> void:
 					bullet_instance.rotation = PI
 				animated_sprite_2d.play("bomb")
 				bomb_delay.start()
-				await get_tree().create_timer(1).timeout
-				bomb_delay.start()
 				
 		State.PAUSE:
 			pass

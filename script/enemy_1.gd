@@ -81,20 +81,14 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if health <= 0:
 			isdead= true
 			animated_sprite_2d.play("death")
+			await get_tree().create_timer(.5).timeout
+			queue_free()
 		if not isdead:
 			animated_sprite_2d.play("damage")
-			print("blas")
-			
+			await get_tree().create_timer(.5).timeout
+			isdamaged= false
 
 
-func _on_animated_sprite_2d_animation_finished() -> void:
-	if animated_sprite_2d.animation == "damage":
-		isdamaged= false
-	if animated_sprite_2d.animation == "death":
-		queue_free()
-	if animated_sprite_2d.animation == "attack":
-		isattacking = false
-		collision_shape_2d.disabled = false
 
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
@@ -102,3 +96,6 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 		animated_sprite_2d.play("attack")
 		isattacking = true
 		collision_shape_2d.disabled = true
+		await get_tree().create_timer(.5).timeout
+		isattacking = false
+		collision_shape_2d.disabled = false

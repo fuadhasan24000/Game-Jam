@@ -79,7 +79,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"explotion",
-"speed": 8.0
+"speed": 16.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xtwfg"]
@@ -111,8 +111,6 @@ collision_layer = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2051157333]
 position = Vector2(5, 0)
 shape = SubResource("CircleShape2D_xtwfg")
-
-[node name="Timer" type="Timer" parent="." unique_id=1150127346]
 
 [node name="daamge area" type="Area2D" parent="." unique_id=873634396 groups=["harm"]]
 collision_layer = 2

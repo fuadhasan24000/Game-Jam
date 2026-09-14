@@ -10,12 +10,13 @@ var health = 10000
 const melee_damage = 20 
 var isattaking = false;
 var SPEED =200
-const JUMP_VELOCITY = -1000
+const JUMP_VELOCITY = -600
 var isshooting = false
 var isdamaged = false
 var isdead = false
 var isdashing = false
 var isfacing:int
+var t: float
 @onready var melee: Timer = $melee
 @onready var gun: Timer = $gun
 @onready var damage: Timer = $damage
@@ -29,7 +30,9 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 
 	if not is_on_floor():
-		velocity.y += gravity *delta*2
+		velocity += get_gravity()*delta
+
+		
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump ") and is_on_floor():
@@ -69,7 +72,7 @@ func _physics_process(delta: float) -> void:
 		dash.start()
 		isdashing = true
 		animation.play("run")
-		await get_tree().create_timer(.2).timeout
+		await get_tree().create_timer(.15).timeout
 		isdashing = false
 	if isdashing:
 		velocity.x = direction * SPEED*15
