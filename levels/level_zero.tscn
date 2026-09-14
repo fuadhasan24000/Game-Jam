@@ -109,6 +109,34 @@
 [ext_resource type="Texture2D" uid="uid://vvyjjpti21sy" path="res://assets/FREE/5. Industrial Tileset - Starter Pack 32p/1_Industrial_Tileset_1.png" id="105_kgsqp"]
 [ext_resource type="PackedScene" uid="uid://cmd0248umqa30" path="res://scene/gateLevelone.tscn" id="108_kgsqp"]
 
+[sub_resource type="GDScript" id="GDScript_kgsqp"]
+script/source = "extends Node2D
+
+@onready var fade_overlay: ColorRect = $CanvasLayer/FadeOverlay
+
+func _ready() -> void:
+	# Make sure it's visible, solid black, and drawn on top
+	fade_overlay.show()
+	fade_overlay.color = Color(0, 0, 0, 1.0)
+	
+	# Animate opacity from 1.0 (black) down to 0.0 (clear) over 1.5 seconds
+	var tween = create_tween()
+	tween.tween_property(fade_overlay, \"color:a\", 0.0, 1.8)
+	
+	# Turn it off after the animation finishes
+	await tween.finished
+	fade_overlay.hide()
+
+
+func _on_exit_btn_pressed() -> void:
+	fade_overlay.show()
+	fade_overlay.color.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(fade_overlay, \"color:a\", 1.0, 1.0)
+	await tween.finished
+	get_tree().change_scene_to_file(\"res://levels/menu.tscn\") # Replace with function body.
+"
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kon5q"]
 texture = ExtResource("5_o1bwh")
 0:0/0 = 0
@@ -1747,6 +1775,36 @@ _data = {
 }
 
 [node name="levelZero" type="Node2D" unique_id=693751344]
+script = SubResource("GDScript_kgsqp")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=434191820]
+layer = 120
+
+[node name="ExitBtn" type="Button" parent="CanvasLayer" unique_id=1565446139]
+custom_minimum_size = Vector2(40, 40)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -65.0
+offset_top = 14.0
+offset_right = -18.0
+offset_bottom = 54.0
+grow_horizontal = 0
+text = "Exit"
+
+[node name="FadeOverlay" type="ColorRect" parent="CanvasLayer" unique_id=1344983620]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -600.0
+offset_top = -508.0
+offset_right = 556.0
+offset_bottom = 477.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=1298033790]
 
@@ -1852,3 +1910,5 @@ autoplay = &"move"
 
 [node name="AnimatableBody2D" parent="." unique_id=1699675386 instance=ExtResource("108_kgsqp")]
 position = Vector2(2213, 33)
+
+[connection signal="pressed" from="CanvasLayer/ExitBtn" to="." method="_on_exit_btn_pressed"]

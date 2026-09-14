@@ -26,6 +26,34 @@
 [ext_resource type="Texture2D" uid="uid://vvyjjpti21sy" path="res://assets/FREE/5. Industrial Tileset - Starter Pack 32p/1_Industrial_Tileset_1.png" id="14_vjtdm"]
 [ext_resource type="PackedScene" uid="uid://0gy2gewv4cl5" path="res://scene/platform_2.tscn" id="25_ntdhj"]
 
+[sub_resource type="GDScript" id="GDScript_6dcgf"]
+script/source = "extends Node2D
+
+@onready var fade_overlay: ColorRect = $CanvasLayer/FadeOverlay
+
+func _ready() -> void:
+	# Make sure it's visible, solid black, and drawn on top
+	fade_overlay.show()
+	fade_overlay.color = Color(0, 0, 0, 1.0)
+	
+	# Animate opacity from 1.0 (black) down to 0.0 (clear) over 1.5 seconds
+	var tween = create_tween()
+	tween.tween_property(fade_overlay, \"color:a\", 0.0, 1.8)
+	
+	# Turn it off after the animation finishes
+	await tween.finished
+	fade_overlay.hide()
+
+
+func _on_exit_btn_pressed() -> void:
+	fade_overlay.show()
+	fade_overlay.color.a = 0.0
+	var tween = create_tween()
+	tween.tween_property(fade_overlay, \"color:a\", 1.0, 1.0)
+	await tween.finished
+	get_tree().change_scene_to_file(\"res://levels/menu.tscn\") # Replace with function body.
+"
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kx6l7"]
 texture = ExtResource("2_bt44k")
 0:0/0 = 0
@@ -3534,6 +3562,37 @@ _data = {
 }
 
 [node name="level1" type="Node2D" unique_id=1469594723]
+script = SubResource("GDScript_6dcgf")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=775677575]
+layer = 120
+
+[node name="ExitBtn" type="Button" parent="CanvasLayer" unique_id=1499336603]
+custom_minimum_size = Vector2(40, 40)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -65.0
+offset_top = 14.0
+offset_right = -18.0
+offset_bottom = 54.0
+grow_horizontal = 0
+text = "Exit"
+
+[node name="FadeOverlay" type="ColorRect" parent="CanvasLayer" unique_id=1069153057]
+visible = false
+z_index = 10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -600.0
+offset_top = -508.0
+offset_right = 556.0
+offset_bottom = 477.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=1089887812]
 
@@ -3701,3 +3760,5 @@ position = Vector2(951, -381)
 
 [node name="platform 9" parent="." unique_id=677142165 instance=ExtResource("25_ntdhj")]
 position = Vector2(951, -420)
+
+[connection signal="pressed" from="CanvasLayer/ExitBtn" to="." method="_on_exit_btn_pressed"]

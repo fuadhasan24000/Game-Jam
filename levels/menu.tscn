@@ -1,0 +1,375 @@
+[gd_scene format=3 uid="uid://dpsyjmc3ju4if"]
+
+[ext_resource type="Theme" uid="uid://gpvxwi3mrjyg" path="res://levels/menutheme.tres" id="1_cnlwo"]
+[ext_resource type="VideoStream" uid="uid://tf6n6tj7x4l4" path="res://assets/MenuBG.ogv" id="2_bvm7p"]
+[ext_resource type="PackedScene" uid="uid://cwr56np65bi1d" path="res://levels/animatedBbutton.tscn" id="2_kfbsc"]
+[ext_resource type="PackedScene" uid="uid://wa0wt802y6sg" path="res://levels/Flipped_animatedButton.tscn" id="3_gbx6r"]
+[ext_resource type="Texture2D" uid="uid://ba7vet5xf2t4o" path="res://assets/lvl1.png" id="5_2fskk"]
+[ext_resource type="Texture2D" uid="uid://oshukl1yenmi" path="res://assets/lvl2.png" id="6_tbhb4"]
+[ext_resource type="Texture2D" uid="uid://ble8ywir7prul" path="res://assets/lvl3.png" id="7_sq0xk"]
+
+[sub_resource type="GDScript" id="GDScript_txq27"]
+script/source = "extends Control
+
+func _on_button_pressed() -> void:
+	get_tree().change_scene_to_file(\"res://scene/cut_scene.tscn\")
+func _on_button3_pressed() -> void:
+	get_tree().quit()
+
+# ==============================================================================
+# 1. LEVEL SCENE PATHS (Put your file paths inside the quotation marks)
+# ==============================================================================
+const LEVEL_1_PATH: String = \"res://levels/level_zero.tscn\"
+const LEVEL_2_PATH: String = \"res://levels/level_1.tscn\"
+const LEVEL_3_PATH: String = \"res://levels/level_2.tscn\"
+
+# ==============================================================================
+# 2. NODE REFERENCES
+# ==============================================================================
+@onready var main_menu_panel: Panel = $Panel
+@onready var levels_btn: Button = $Panel/VBoxContainer/Button2
+@onready var level_select_panel: Panel = $LevelSelectPanel
+@onready var level_column: VBoxContainer = $LevelSelectPanel/LevelColumn
+@onready var thumb_1: TextureButton = $LevelSelectPanel/LevelColumn/TextureButton
+@onready var thumb_2: TextureButton = $LevelSelectPanel/LevelColumn/TextureButton2
+@onready var thumb_3: TextureButton = $LevelSelectPanel/LevelColumn/TextureButton3
+
+var is_panel_open: bool = false
+var panel_tween: Tween
+
+# Panel & thumbnail dimensions
+var target_panel_pos: Vector2
+var target_panel_size: Vector2 = Vector2(560, 530)
+var thumbnail_card_size: Vector2 = Vector2(500, 142)
+@onready var fade_overlay: ColorRect = $CanvasLayer/FadeOverlay
+
+func _ready() -> void:
+	level_select_panel.visible = false
+	_build_wide_rounded_layout()
+	
+	_setup_thumbnail_button(thumb_1, LEVEL_1_PATH)
+	_setup_thumbnail_button(thumb_2, LEVEL_2_PATH)
+	_setup_thumbnail_button(thumb_3, LEVEL_3_PATH)
+
+	# Make sure it's visible, solid black, and drawn on top
+	fade_overlay.show()
+	fade_overlay.color = Color(0, 0, 0, 1.0)
+	
+	# Animate opacity from 1.0 (black) down to 0.0 (clear) over 1.5 seconds
+	var tween = create_tween()
+	tween.tween_property(fade_overlay, \"color:a\", 0.0, 1.5)
+	
+	# Turn it off after the animation finishes
+	await tween.finished
+	fade_overlay.hide()
+
+# ==============================================================================
+# 3. LAYOUT & POSITIONING (Anchored close to main menu)
+# ==============================================================================
+func _build_wide_rounded_layout() -> void:
+	var vp_size = get_viewport_rect().size
+	
+	level_select_panel.custom_minimum_size = target_panel_size
+	level_select_panel.size = target_panel_size
+	
+	# Position directly to the left of the main menu panel with a clean 35px gap
+	var gap_between_panels: float = 35.0
+	var final_x: float = main_menu_panel.position.x - target_panel_size.x - gap_between_panels
+	var final_y: float = (vp_size.y - target_panel_size.y) / 2.0
+	
+	# Safety check: if screen is too small, prevent panel from clipping off-screen
+	if final_x < 20.0:
+		final_x = 20.0
+		
+	target_panel_pos = Vector2(final_x, final_y)
+	level_select_panel.position = target_panel_pos
+	level_select_panel.pivot_offset = target_panel_size / 2.0
+	
+	# Configure vertical column layout & inner margins
+	level_column.anchor_left = 0.0
+	level_column.anchor_top = 0.0
+	level_column.anchor_right = 1.0
+	level_column.anchor_bottom = 1.0
+	level_column.offset_left = 30.0
+	level_column.offset_right = -30.0
+	level_column.offset_top = 28.0
+	level_column.offset_bottom = -28.0
+	level_column.add_theme_constant_override(\"separation\", 14)
+	
+	# StyleBox for the rounded clipping mask (18px radius)
+	var round_style = StyleBoxFlat.new()
+	round_style.corner_radius_top_left = 18
+	round_style.corner_radius_top_right = 18
+	round_style.corner_radius_bottom_right = 18
+	round_style.corner_radius_bottom_left = 18
+	round_style.bg_color = Color(0.05, 0.08, 0.14, 0.95)
+	round_style.border_width_left = 1
+	round_style.border_width_top = 1
+	round_style.border_width_right = 1
+	round_style.border_width_bottom = 1
+	round_style.border_color = Color(0.3, 0.5, 0.7, 0.35)
+	
+	var thumbs = [thumb_1, thumb_2, thumb_3]
+	for btn in thumbs:
+		if btn.get_parent() is Panel and btn.get_parent().name.begins_with(\"Mask_\"):
+			continue
+			
+		var parent_col = btn.get_parent()
+		var original_idx = btn.get_index()
+		
+		var mask = Panel.new()
+		mask.name = \"Mask_\" + btn.name
+		mask.custom_minimum_size = thumbnail_card_size
+		mask.size = thumbnail_card_size
+		mask.add_theme_stylebox_override(\"panel\", round_style)
+		mask.clip_children = CanvasItem.CLIP_CHILDREN_ONLY
+		mask.mouse_filter = Control.MOUSE_FILTER_PASS
+		
+		parent_col.add_child(mask)
+		parent_col.move_child(mask, original_idx)
+		
+		btn.reparent(mask)
+		btn.anchor_left = 0.0
+		btn.anchor_top = 0.0
+		btn.anchor_right = 1.0
+		btn.anchor_bottom = 1.0
+		btn.offset_left = 0.0
+		btn.offset_top = 0.0
+		btn.offset_right = 0.0
+		btn.offset_bottom = 0.0
+		btn.ignore_texture_size = true
+		btn.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_COVERED
+
+# ==============================================================================
+# 4. CINEMATIC SMOOTH POP-OUT / POP-IN (TRANS_QUINT Easing)
+# ==============================================================================
+func _on_button_2_pressed() -> void:
+	if is_panel_open:
+		_animate_pop_out()
+	else:
+		_animate_pop_in()
+
+func _animate_pop_in() -> void:
+	is_panel_open = true
+	level_select_panel.visible = true
+	
+	# Start slightly offset towards the Levels button with subtle compression
+	var start_pos = Vector2(target_panel_pos.x + 90.0, target_panel_pos.y)
+	level_select_panel.position = start_pos
+	level_select_panel.scale = Vector2(0.82, 0.82)
+	level_select_panel.modulate.a = 0.0
+	
+	if panel_tween and panel_tween.is_running():
+		panel_tween.kill()
+		
+	# Smooth, fluid deceleration (fast out of the gate, soft cushioned landing)
+	panel_tween = create_tween().set_parallel(true)
+	panel_tween.tween_property(level_select_panel, \"position\", target_panel_pos, 0.48).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	panel_tween.tween_property(level_select_panel, \"scale\", Vector2.ONE, 0.48).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	panel_tween.tween_property(level_select_panel, \"modulate:a\", 1.0, 0.35).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func _animate_pop_out() -> void:
+	is_panel_open = false
+	
+	var exit_pos = Vector2(target_panel_pos.x + 70.0, target_panel_pos.y)
+	
+	if panel_tween and panel_tween.is_running():
+		panel_tween.kill()
+		
+	# Glides smoothly back towards the button as it fades
+	panel_tween = create_tween().set_parallel(true)
+	panel_tween.tween_property(level_select_panel, \"position\", exit_pos, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	panel_tween.tween_property(level_select_panel, \"scale\", Vector2(0.85, 0.85), 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	panel_tween.tween_property(level_select_panel, \"modulate:a\", 0.0, 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	panel_tween.chain().tween_callback(func(): level_select_panel.visible = false)
+
+# ==============================================================================
+# 5. HOVER & CLICK SQUISH LOGIC
+# ==============================================================================
+func _setup_thumbnail_button(btn: TextureButton, target_path: String) -> void:
+	var mask_panel = btn.get_parent() as Control
+	mask_panel.pivot_offset = thumbnail_card_size / 2.0
+	
+	# Hover enter: smooth scale + subtle glow
+	btn.mouse_entered.connect(func():
+		var t = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		t.tween_property(mask_panel, \"scale\", Vector2(1.03, 1.03), 0.15)
+		t.tween_property(btn, \"modulate\", Color(1.18, 1.18, 1.2, 1.0), 0.15)
+	)
+	
+	# Hover exit: return to normal
+	btn.mouse_exited.connect(func():
+		var t = create_tween().set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		t.tween_property(mask_panel, \"scale\", Vector2.ONE, 0.15)
+		t.tween_property(btn, \"modulate\", Color(1.0, 1.0, 1.0, 1.0), 0.15)
+	)
+	
+	# Press: tactile micro squish
+	btn.button_down.connect(func():
+		var t = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		t.tween_property(mask_panel, \"scale\", Vector2(0.97, 0.97), 0.07)
+	)
+	
+	# Release: spring back and transition
+	btn.button_up.connect(func():
+		var t = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		t.tween_property(mask_panel, \"scale\", Vector2(1.03, 1.03), 0.1)
+		
+		if target_path != \"\":
+			get_tree().change_scene_to_file(target_path)
+		else:
+			print(\"Target level path is empty for: \", btn.name)
+	)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2fskk"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.023023285, 0.11256047, 0.24724936, 0.9098039)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_plebf"]
+bg_color = Color(0.08235294, 0.1764706, 0.30980393, 0.9411765)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+expand_margin_top = 20.0
+expand_margin_bottom = 20.0
+
+[node name="Control" type="Control" unique_id=1189176800]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_cnlwo")
+script = SubResource("GDScript_txq27")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1390383127]
+
+[node name="FadeOverlay" type="ColorRect" parent="CanvasLayer" unique_id=1070033023]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -600.0
+offset_top = -508.0
+offset_right = 556.0
+offset_bottom = 477.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=191397693]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2_bvm7p")
+speed_scale = 0.679
+autoplay = true
+expand = true
+loop = true
+
+[node name="Panel" type="Panel" parent="." unique_id=2058739453]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.81100005
+anchor_top = 1.0
+anchor_right = 0.81100005
+anchor_bottom = 1.0
+offset_left = -156.27203
+offset_top = -453.0
+offset_right = 155.72797
+offset_bottom = -157.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_2fskk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1147092014]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Button" parent="Panel/VBoxContainer" unique_id=2056771138 instance=ExtResource("2_kfbsc")]
+layout_mode = 2
+
+[node name="Button2" parent="Panel/VBoxContainer" unique_id=635395865 instance=ExtResource("3_gbx6r")]
+layout_mode = 2
+text = "Levels"
+
+[node name="Button3" parent="Panel/VBoxContainer" unique_id=372307536 instance=ExtResource("2_kfbsc")]
+layout_mode = 2
+text = "Quit"
+
+[node name="LevelSelectPanel" type="Panel" parent="." unique_id=159104979]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -385.0
+offset_top = -285.0
+offset_right = 164.0
+offset_bottom = 380.4762
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.84000003)
+theme_override_styles/panel = SubResource("StyleBoxFlat_plebf")
+
+[node name="LevelColumn" type="VBoxContainer" parent="LevelSelectPanel" unique_id=1697821614]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 11
+
+[node name="TextureButton" type="TextureButton" parent="LevelSelectPanel/LevelColumn" unique_id=416321244]
+custom_minimum_size = Vector2(420, 210)
+layout_mode = 2
+texture_normal = ExtResource("5_2fskk")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextureButton2" type="TextureButton" parent="LevelSelectPanel/LevelColumn" unique_id=927007873]
+custom_minimum_size = Vector2(420, 210)
+layout_mode = 2
+texture_normal = ExtResource("6_tbhb4")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="TextureButton3" type="TextureButton" parent="LevelSelectPanel/LevelColumn" unique_id=1719849275]
+custom_minimum_size = Vector2(420, 210)
+layout_mode = 2
+texture_normal = ExtResource("7_sq0xk")
+ignore_texture_size = true
+stretch_mode = 5
+
+[connection signal="pressed" from="Panel/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Button3" to="." method="_on_button3_pressed"]
