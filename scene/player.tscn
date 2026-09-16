@@ -701,7 +701,14 @@ material = SubResource("ShaderMaterial_s4jxa")
 position = Vector2(9, -16)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_xtwfg")
-animation = &"walk"
+animation = &"attack(gun)"
+
+[node name="right" type="Marker2D" parent="animation" unique_id=181035001]
+position = Vector2(8.494737, 1.4000006)
+scale = Vector2(0.19999999, 0.19999999)
+
+[node name="left" type="Marker2D" parent="animation" unique_id=1994031903]
+position = Vector2(-8.305263, 1.3999999)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1414824853 groups=["player"]]
 light_mask = 2

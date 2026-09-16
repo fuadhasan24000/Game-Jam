@@ -7,6 +7,7 @@
 radius = 7.0
 
 [node name="bullet" type="Node2D" unique_id=1434862466]
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_xw300")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=429142138]

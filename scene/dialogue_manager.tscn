@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://36iibl2cytbo"]
+
+[ext_resource type="Script" uid="uid://clen3221o0eru" path="res://script/dialogue_manager.gd" id="1_t51de"]
+[ext_resource type="FontFile" uid="uid://c2a0ljdicyp7d" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_qyr1w"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xtwfg"]
+font = ExtResource("2_qyr1w")
+font_size = 28
+
+[node name="dialogueManager" type="CanvasLayer" unique_id=441889796]
+process_mode = 3
+script = ExtResource("1_t51de")
+
+[node name="dialogue_box" type="Control" parent="." unique_id=1727843270]
+visible = false
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="dialogue_box" unique_id=501001645]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="text" type="Label" parent="dialogue_box" unique_id=2086323198]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_xtwfg")
+autowrap_mode = 3

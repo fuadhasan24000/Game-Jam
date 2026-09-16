@@ -14,8 +14,8 @@ var direction:int =1
 
 enum State { PATROL, CHASE }
 
-@export var speed := 80
-@export var chase_speed := 160
+@export var speed := 20
+@export var chase_speed := 45
 
 var state: State = State.PATROL
 var player: Node2D = null
@@ -51,13 +51,15 @@ func _physics_process(delta: float) -> void:
 				animated_sprite_2d.flip_h = true
 
 			velocity.x = direction * speed
+			move_and_slide()
 		State.CHASE:
-			if player:
+			if player and not right.is_colliding() and not left.is_colliding() and below.is_colliding():
 				var direction = sign(player.global_position.x - global_position.x)
 				velocity.x = direction * chase_speed
 				animated_sprite_2d.flip_h = direction <0
+				move_and_slide()
 
-	move_and_slide()
+	
 
 
 
@@ -75,18 +77,19 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("melee1"):
 		health= health - 20
-		print(health)
 		isdamaged =true
-		
+
 		if health <= 0:
 			isdead= true
 			animated_sprite_2d.play("death")
 			await get_tree().create_timer(.5).timeout
+			GameManager.scraps+= 5
 			queue_free()
 		if not isdead:
 			animated_sprite_2d.play("damage")
 			await get_tree().create_timer(.5).timeout
 			isdamaged= false
+
 
 
 

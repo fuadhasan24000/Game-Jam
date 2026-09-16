@@ -96,6 +96,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 			isdead= true
 			animated_sprite_2d.play("death")
 			await get_tree().create_timer(.5).timeout
+			GameManager.scraps+=10
 			queue_free()
 		if not isdead:
 			animated_sprite_2d.play("damage")

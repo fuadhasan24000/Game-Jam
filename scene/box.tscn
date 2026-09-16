@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b3qcmhbe0yiga"]
+
+[ext_resource type="Script" uid="uid://6llkaee5irjg" path="res://script/box.gd" id="1_dmwsn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xtwfg"]
+
+[node name="box" type="Area2D" unique_id=1472592006]
+script = ExtResource("1_dmwsn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=754629289]
+shape = SubResource("RectangleShape2D_xtwfg")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -4,9 +4,9 @@
 [ext_resource type="VideoStream" uid="uid://tf6n6tj7x4l4" path="res://assets/MenuBG.ogv" id="2_bvm7p"]
 [ext_resource type="PackedScene" uid="uid://cwr56np65bi1d" path="res://levels/animatedBbutton.tscn" id="2_kfbsc"]
 [ext_resource type="PackedScene" uid="uid://wa0wt802y6sg" path="res://levels/Flipped_animatedButton.tscn" id="3_gbx6r"]
-[ext_resource type="Texture2D" uid="uid://ba7vet5xf2t4o" path="res://assets/lvl1.png" id="5_2fskk"]
-[ext_resource type="Texture2D" uid="uid://oshukl1yenmi" path="res://assets/lvl2.png" id="6_tbhb4"]
-[ext_resource type="Texture2D" uid="uid://ble8ywir7prul" path="res://assets/lvl3.png" id="7_sq0xk"]
+[ext_resource type="Texture2D" uid="uid://c25cno8uaedtu" path="res://assets/lvl1.png" id="5_2fskk"]
+[ext_resource type="Texture2D" uid="uid://dw7a2ce0s07ws" path="res://assets/lvl2.png" id="6_tbhb4"]
+[ext_resource type="Texture2D" uid="uid://d1nrrr0wdrxbv" path="res://assets/lvl3.png" id="7_sq0xk"]
 
 [sub_resource type="GDScript" id="GDScript_txq27"]
 script/source = "extends Control
