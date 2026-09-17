@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://bpk8rnmvju5p5"]
+
+[ext_resource type="Script" uid="uid://cf3nl3lspjvv3" path="res://script/game_completed.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://6668362hogbs" path="res://assets/icon.jpg" id="2_ih7ow"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+content_margin_left = 40.0
+content_margin_top = 36.0
+content_margin_right = 40.0
+content_margin_bottom = 36.0
+bg_color = Color(0.109804, 0.129412, 0.196078, 0.941176)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.960784, 0.768627, 0.254902, 0.6)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 12
+shadow_offset = Vector2(0, 8)
+
+[node name="GameCompleted" type="Control" unique_id=1700281101]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="." unique_id=409281629]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.054902, 0.0627451, 0.0941176, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1521702156]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardPanel" type="PanelContainer" parent="CenterContainer" unique_id=1555076335]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="ContentBox" type="VBoxContainer" parent="CenterContainer/CardPanel" unique_id=875709417]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TrophyIcon" type="TextureRect" parent="CenterContainer/CardPanel/ContentBox" unique_id=766268150]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_ih7ow")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/CardPanel/ContentBox" unique_id=198050262]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85098, 0.298039, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.65)
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 42
+text = "GAME COMPLETED"
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="CenterContainer/CardPanel/ContentBox" unique_id=1646922791]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.819608, 0.854902, 0.941176, 1)
+theme_override_font_sizes/font_size = 17
+text = "Congratulations! You have defeated Archeon"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="CenterContainer/CardPanel/ContentBox" unique_id=42974582]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="ButtonBox" type="VBoxContainer" parent="CenterContainer/CardPanel/ContentBox" unique_id=196921857]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RestartButton" type="Button" parent="CenterContainer/CardPanel/ContentBox/ButtonBox" unique_id=780389066]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Return to main menu"
+
+[node name="QuitButton" type="Button" parent="CenterContainer/CardPanel/ContentBox/ButtonBox" unique_id=379639432]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_font_sizes/font_size = 17
+text = "Quit to Desktop"

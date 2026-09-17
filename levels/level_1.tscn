@@ -25,6 +25,8 @@
 [ext_resource type="PackedScene" uid="uid://b05uksq1wqg81" path="res://scene/kill_zone.tscn" id="25_0fu15"]
 [ext_resource type="PackedScene" uid="uid://0gy2gewv4cl5" path="res://scene/platform_2.tscn" id="25_ntdhj"]
 [ext_resource type="PackedScene" uid="uid://cudoy1vpa4pah" path="res://scene/player.tscn" id="26_0fu15"]
+[ext_resource type="PackedScene" uid="uid://xttm2pn7jfhj" path="res://scene/ui.tscn" id="26_4knja"]
+[ext_resource type="AudioStream" uid="uid://44askyi8evwr" path="res://music/bgm.mp3" id="27_4knja"]
 
 [sub_resource type="GDScript" id="GDScript_6dcgf"]
 script/source = "extends Node2D
@@ -41,16 +43,30 @@ func _ready() -> void:
 	# Animate opacity from 1.0 (black) down to 0.0 (clear) over 1.5 seconds
 	var tween = create_tween()
 	tween.tween_property(fade_overlay, \"color:a\", 0.0, 1.8)
-	
+	$music.play()
 	# Turn it off after the animation finishes
 	await tween.finished
 	fade_overlay.hide()
+	GameManager.player_health =200
+	DialogueManager.start_dialogue(DialogueManager.dialogues_t1[2])
+	if not GameManager.story:
+		GameManager.canvas_scraps= 0
+		GameManager.scraps = 0
+	elif GameManager.story:
+		GameManager.canvas_scraps= GameManager.scrap1
+		GameManager.scraps = GameManager.ascrap1
 
 func _process(delta: float) -> void:
 	if enterd and Input.is_action_just_pressed(\"enter\"):
 		key = true
 	if Input.is_action_just_pressed(\"enter\") and exit_entered and key:
+		GameManager.scrap2 = GameManager.canvas_scraps
+		GameManager.ascrap2 = GameManager.scraps
+		DialogueManager.start_dialogue(DialogueManager.dialogues_t1[5])
 		get_tree().change_scene_to_file(\"res://levels/level_2.tscn\")
+	elif Input.is_action_just_pressed(\"enter\") and exit_entered:
+		DialogueManager.start_dialogue(DialogueManager.dialogues_t1[4])
+		
 
 func _on_exit_btn_pressed() -> void:
 	fade_overlay.show()
@@ -81,6 +97,12 @@ func _on_gate_body_entered(body: Node2D) -> void:
 func _on_gate_body_exited(body: Node2D) -> void:
 	if body.is_in_group(\"player\"):
 		exit_entered =false
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group(\"player\"):
+		DialogueManager.start_dialogue(DialogueManager.dialogues_t1[3])
+		$Area2D.queue_free()
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kx6l7"]
@@ -3574,6 +3596,9 @@ size = Vector2(77, 80.5)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xtwfg"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_xtwfg"]
+radius = 42.755116
+
 [node name="level1" type="Node2D" unique_id=1469594723]
 script = SubResource("GDScript_6dcgf")
 
@@ -3765,46 +3790,46 @@ position = Vector2(951, -381)
 position = Vector2(951, -420)
 
 [node name="enemy" parent="." unique_id=1282545768 instance=ExtResource("21_w75he")]
-position = Vector2(408, 32)
+position = Vector2(366, 33)
 
 [node name="enemy2" parent="." unique_id=1725728563 instance=ExtResource("21_w75he")]
 position = Vector2(629, 16)
 
 [node name="enemy3" parent="." unique_id=1856962566 instance=ExtResource("21_w75he")]
-position = Vector2(1207, 8)
+position = Vector2(1207, 20)
 
 [node name="enemy4" parent="." unique_id=1267650318 instance=ExtResource("21_w75he")]
-position = Vector2(1475, 17)
+position = Vector2(1477, 20)
 
 [node name="enemy5" parent="." unique_id=212705415 instance=ExtResource("22_udfhf")]
-position = Vector2(1237, -225)
+position = Vector2(1236, -220)
 
 [node name="enemy6" parent="." unique_id=1544117505 instance=ExtResource("22_udfhf")]
-position = Vector2(1007, -332)
+position = Vector2(996, -317)
 
 [node name="enemy7" parent="." unique_id=2117184669 instance=ExtResource("21_w75he")]
-position = Vector2(1171, -227)
+position = Vector2(1167, -219)
 
 [node name="enemy8" parent="." unique_id=222984303 instance=ExtResource("21_w75he")]
-position = Vector2(589, -441)
+position = Vector2(594, -434)
 
 [node name="enemy9" parent="." unique_id=424936914 instance=ExtResource("22_udfhf")]
-position = Vector2(63, -375)
+position = Vector2(49, -363)
 
 [node name="enemy10" parent="." unique_id=1981791668 instance=ExtResource("22_udfhf")]
-position = Vector2(260, -383)
+position = Vector2(254, -366)
 
 [node name="enemy11" parent="." unique_id=1957918401 instance=ExtResource("21_w75he")]
-position = Vector2(150, -373)
+position = Vector2(122, -364)
 
 [node name="enemy12" parent="." unique_id=464404542 instance=ExtResource("22_udfhf")]
-position = Vector2(1755, -231)
+position = Vector2(1750, -220)
 
 [node name="enemy13" parent="." unique_id=364226972 instance=ExtResource("21_w75he")]
-position = Vector2(1851, -231)
+position = Vector2(1853, -220)
 
 [node name="enemy14" parent="." unique_id=773581493 instance=ExtResource("21_w75he")]
-position = Vector2(1990, -225)
+position = Vector2(1989, -219)
 
 [node name="Scrap" parent="." unique_id=1827013574 instance=ExtResource("23_i6od7")]
 position = Vector2(-14, 44)
@@ -3828,10 +3853,10 @@ position = Vector2(711, -119)
 position = Vector2(893, 26)
 
 [node name="enemy16" parent="." unique_id=988722726 instance=ExtResource("21_w75he")]
-position = Vector2(1083, 14)
+position = Vector2(1081, 19)
 
 [node name="enemy17" parent="." unique_id=1066332126 instance=ExtResource("21_w75he")]
-position = Vector2(1335, 11)
+position = Vector2(1333, 20)
 
 [node name="Scrap8" parent="." unique_id=259802831 instance=ExtResource("23_i6od7")]
 position = Vector2(1369, 24)
@@ -3893,8 +3918,21 @@ position = Vector2(791, 102)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="kill zone" unique_id=1627426311]
 shape = SubResource("WorldBoundaryShape2D_xtwfg")
 
+[node name="Area2D" type="Area2D" parent="." unique_id=874243078]
+position = Vector2(1579, 4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=499496803]
+shape = SubResource("CircleShape2D_xtwfg")
+
+[node name="UI" parent="." unique_id=193987201 instance=ExtResource("26_4knja")]
+
+[node name="music" type="AudioStreamPlayer2D" parent="." unique_id=749852785]
+position = Vector2(1579, 4)
+stream = ExtResource("27_4knja")
+
 [connection signal="pressed" from="CanvasLayer/ExitBtn" to="." method="_on_exit_btn_pressed"]
 [connection signal="body_entered" from="key" to="." method="_on_key_body_entered"]
 [connection signal="body_exited" from="key" to="." method="_on_key_body_exited"]
 [connection signal="body_entered" from="gate" to="." method="_on_gate_body_entered"]
 [connection signal="body_exited" from="gate" to="." method="_on_gate_body_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

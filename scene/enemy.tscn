@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://ctsvtbjuone2d" path="res://script/e_1.gd" id="1_2y4bb"]
 [ext_resource type="Texture2D" uid="uid://n4rgjdul2t7n" path="res://assets/E1 pro.png" id="1_812uc"]
 [ext_resource type="Shader" uid="uid://dr6yi87bdfvlt" path="res://Shader/enemy.gdshader" id="2_8u16h"]
+[ext_resource type="AudioStream" uid="uid://dmqv2e2sksniy" path="res://music/plasma.mp3" id="4_b7koy"]
+[ext_resource type="AudioStream" uid="uid://d3ftltxocx022" path="res://music/sword_hit.mp3" id="5_yvcfn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvp55"]
 size = Vector2(17, 26)
@@ -322,7 +324,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_xtwfg"]
 radius = 150.00333
 
-[node name="enemy" type="CharacterBody2D" unique_id=212705415]
+[node name="enemy" type="CharacterBody2D" unique_id=626069544]
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_2y4bb")
@@ -357,12 +359,18 @@ target_position = Vector2(14, 0)
 target_position = Vector2(-10, 0)
 
 [node name="below" type="RayCast2D" parent="." unique_id=426956232]
-target_position = Vector2(0, 16)
+target_position = Vector2(0, 19)
 
 [node name="Timer" type="Timer" parent="." unique_id=1104532749]
 one_shot = true
 
-[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[node name="plasma" type="AudioStreamPlayer2D" parent="." unique_id=682967049]
+stream = ExtResource("4_b7koy")
+volume_db = -3.138
+
+[node name="hurt" type="AudioStreamPlayer2D" parent="." unique_id=1073546462]
+stream = ExtResource("5_yvcfn")
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="AnimatedSprite2D" method="_on_animation_finished"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]

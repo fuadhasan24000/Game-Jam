@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://pcctgws2ud5j" path="res://script/enemy_1.gd" id="1_0t4by"]
 [ext_resource type="Texture2D" uid="uid://bharcx77ih0xr" path="res://assets/E2.png" id="1_fv6j8"]
 [ext_resource type="Shader" uid="uid://dr6yi87bdfvlt" path="res://Shader/enemy.gdshader" id="2_aqd53"]
+[ext_resource type="AudioStream" uid="uid://d3ftltxocx022" path="res://music/sword_hit.mp3" id="4_sd68r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fv6j8"]
 size = Vector2(14, 29)
@@ -305,10 +306,13 @@ target_position = Vector2(12, 0)
 target_position = Vector2(-11, 0)
 
 [node name="below" type="RayCast2D" parent="." unique_id=1772247935]
-target_position = Vector2(0, 26)
+target_position = Vector2(0, 16)
 
 [node name="ray" type="RayCast2D" parent="." unique_id=363072023]
 target_position = Vector2(89, 0)
+
+[node name="hurt" type="AudioStreamPlayer2D" parent="." unique_id=1065007981]
+stream = ExtResource("4_sd68r")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]

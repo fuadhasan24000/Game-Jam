@@ -1,7 +1,7 @@
 extends Node2D
 @onready var ray_cast_2d: RayCast2D = $RayCast2D
 
-const speed :int = 900
+const speed :int = 1500
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.

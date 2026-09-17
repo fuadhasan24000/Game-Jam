@@ -180,9 +180,9 @@ position = Vector2(6.9581723, -5.2778698e-05)
 limit_bottom = 657
 
 [node name="enemy" parent="." unique_id=1282545768 instance=ExtResource("3_ow80b")]
-position = Vector2(615, 222)
+position = Vector2(597, 418)
 scale = Vector2(2, 2)
 
 [node name="enemy2" parent="." unique_id=212705415 instance=ExtResource("4_q0q7k")]
-position = Vector2(-516, 356)
+position = Vector2(-580, 417)
 scale = Vector2(1.984, 2)

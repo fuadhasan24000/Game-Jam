@@ -5,6 +5,10 @@
 [ext_resource type="Shader" uid="uid://dr6yi87bdfvlt" path="res://Shader/enemy.gdshader" id="2_s4jxa"]
 [ext_resource type="Texture2D" uid="uid://dclb73mmu1d5n" path="res://assets/R1.png" id="3_ct4mp"]
 [ext_resource type="Texture2D" uid="uid://b8cxjlfaer4im" path="res://assets/R2flip.png" id="3_s4jxa"]
+[ext_resource type="AudioStream" uid="uid://eqqwn0b27jbi" path="res://music/sword swing.wav" id="6_oh5ij"]
+[ext_resource type="AudioStream" uid="uid://dmqv2e2sksniy" path="res://music/plasma.mp3" id="7_hp4bs"]
+[ext_resource type="AudioStream" uid="uid://bx3ka5r6jrr43" path="res://music/hurt_p.mp3" id="8_2fvbb"]
+[ext_resource type="AudioStream" uid="uid://vv2y74myr5ek" path="res://music/walk1.mp3" id="8_g2vtq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s4jxa"]
 shader = ExtResource("2_s4jxa")
@@ -688,7 +692,7 @@ animations = [{
 size = Vector2(1.8321278, 17.163391)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ywa8g"]
-size = Vector2(289, 106)
+size = Vector2(250, 106)
 
 [node name="player" type="CharacterBody2D" unique_id=2000411160 groups=["player"]]
 light_mask = 16
@@ -701,7 +705,9 @@ material = SubResource("ShaderMaterial_s4jxa")
 position = Vector2(9, -16)
 scale = Vector2(5, 5)
 sprite_frames = SubResource("SpriteFrames_xtwfg")
-animation = &"attack(gun)"
+animation = &"attack(melee)"
+frame = 3
+flip_h = true
 
 [node name="right" type="Marker2D" parent="animation" unique_id=181035001]
 position = Vector2(8.494737, 1.4000006)
@@ -721,7 +727,7 @@ shape = SubResource("RectangleShape2D_ow80b")
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_area" unique_id=717769875 groups=["melee1"]]
-position = Vector2(11.973689, 2)
+position = Vector2(4.4736853, 2)
 shape = SubResource("RectangleShape2D_ywa8g")
 disabled = true
 
@@ -752,7 +758,22 @@ one_shot = true
 [node name="dash" type="Timer" parent="." unique_id=99417955]
 one_shot = true
 
-[connection signal="animation_finished" from="animation" to="." method="_on_animation_animation_finished"]
+[node name="sword" type="AudioStreamPlayer2D" parent="." unique_id=635141241]
+stream = ExtResource("6_oh5ij")
+volume_db = 2.0
+max_distance = 3025.0
+
+[node name="plasma" type="AudioStreamPlayer2D" parent="." unique_id=249207459]
+stream = ExtResource("7_hp4bs")
+
+[node name="hurt" type="AudioStreamPlayer2D" parent="." unique_id=2005154276]
+position = Vector2(-6.5263147, 2)
+stream = ExtResource("8_2fvbb")
+
+[node name="walk" type="AudioStreamPlayer2D" parent="." unique_id=1923212390]
+stream = ExtResource("8_g2vtq")
+
 [connection signal="animation_finished" from="animation" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="animation_finished" from="animation" to="." method="_on_animation_animation_finished"]
 [connection signal="body_entered" from="attack_area" to="." method="_on_area_2d_body_entered"]
 [connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]

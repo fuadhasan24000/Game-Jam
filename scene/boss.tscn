@@ -3,6 +3,11 @@
 [ext_resource type="Script" uid="uid://bohmlelvqmkyf" path="res://script/boss.gd" id="1_et0im"]
 [ext_resource type="Shader" uid="uid://dr6yi87bdfvlt" path="res://Shader/enemy.gdshader" id="2_285t0"]
 [ext_resource type="Texture2D" uid="uid://tbidhip4jovm" path="res://assets/titan.png" id="2_et0im"]
+[ext_resource type="AudioStream" uid="uid://dmqv2e2sksniy" path="res://music/plasma.mp3" id="4_fl70q"]
+[ext_resource type="AudioStream" uid="uid://d3ftltxocx022" path="res://music/sword_hit.mp3" id="5_nuwfj"]
+[ext_resource type="AudioStream" uid="uid://dg10jflky2bsp" path="res://music/boss_walk.ogg" id="6_ot3je"]
+[ext_resource type="AudioStream" uid="uid://bel1et1p6q50w" path="res://music/hurtB.mp3" id="7_tcgrh"]
+[ext_resource type="AudioStream" uid="uid://c2qmmx1g3j8n0" path="res://music/smash.mp3" id="8_gtfqc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xtwfg"]
 size = Vector2(48, 52)
@@ -69,11 +74,7 @@ region = Rect2(314, 190, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gtfqc"]
 atlas = ExtResource("2_et0im")
-region = Rect2(376, 190, 62, 62)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ex4t5"]
-atlas = ExtResource("2_et0im")
-region = Rect2(438, 190, 62, 62)
+region = Rect2(438, 252, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_27m4v"]
 atlas = ExtResource("2_et0im")
@@ -203,37 +204,69 @@ region = Rect2(376, 65, 62, 62)
 atlas = ExtResource("2_et0im")
 region = Rect2(438, 65, 62, 62)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_p4hqd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex4t5"]
 atlas = ExtResource("2_et0im")
 region = Rect2(4, 438, 62, 62)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_h5eiv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_p4hqd"]
 atlas = ExtResource("2_et0im")
 region = Rect2(66, 438, 62, 62)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_l34m3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5eiv"]
 atlas = ExtResource("2_et0im")
 region = Rect2(128, 438, 62, 62)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q5if1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_l34m3"]
 atlas = ExtResource("2_et0im")
 region = Rect2(190, 438, 62, 62)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qm4oi"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5if1"]
 atlas = ExtResource("2_et0im")
 region = Rect2(252, 438, 62, 62)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mxwkd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qm4oi"]
 atlas = ExtResource("2_et0im")
 region = Rect2(314, 438, 62, 62)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4srit"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxwkd"]
 atlas = ExtResource("2_et0im")
 region = Rect2(376, 438, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4srit"]
+atlas = ExtResource("2_et0im")
+region = Rect2(438, 438, 62, 62)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k4oad"]
 atlas = ExtResource("2_et0im")
 region = Rect2(438, 438, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8cyp"]
+atlas = ExtResource("2_et0im")
+region = Rect2(376, 438, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2a54m"]
+atlas = ExtResource("2_et0im")
+region = Rect2(314, 438, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mekwn"]
+atlas = ExtResource("2_et0im")
+region = Rect2(252, 438, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7d2d"]
+atlas = ExtResource("2_et0im")
+region = Rect2(190, 438, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6o1c"]
+atlas = ExtResource("2_et0im")
+region = Rect2(128, 438, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sc60x"]
+atlas = ExtResource("2_et0im")
+region = Rect2(66, 438, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sa5ov"]
+atlas = ExtResource("2_et0im")
+region = Rect2(4, 438, 62, 62)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xtwfg"]
 animations = [{
@@ -287,9 +320,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gtfqc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ex4t5")
 }],
 "loop": 0,
 "name": &"beam",
@@ -351,7 +381,7 @@ animations = [{
 }],
 "loop": 0,
 "name": &"hulk smash",
-"speed": 16.0
+"speed": 8.0
 }, {
 "frames": [],
 "loop": 1,
@@ -418,6 +448,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ex4t5")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_p4hqd")
 }, {
 "duration": 1.0,
@@ -437,13 +470,39 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_4srit")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k4oad")
 }],
 "loop": 0,
 "name": &"pause",
-"speed": 5.0
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4oad")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8cyp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2a54m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mekwn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7d2d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6o1c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sc60x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sa5ov")
+}],
+"loop": 1,
+"name": &"reverse smash",
+"speed": 8.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvp55"]
@@ -464,7 +523,7 @@ shape = SubResource("RectangleShape2D_xtwfg")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1792249235]
 material = SubResource("ShaderMaterial_fl70q")
 sprite_frames = SubResource("SpriteFrames_xtwfg")
-animation = &"move"
+animation = &"beam"
 autoplay = "move"
 
 [node name="hitbox2" type="Area2D" parent="." unique_id=412565442 groups=["enemy hitbox"]]
@@ -497,6 +556,11 @@ shape = SubResource("WorldBoundaryShape2D_xtwfg")
 disabled = true
 
 [node name="beam_delay" type="Timer" parent="." unique_id=507298392]
+wait_time = 0.8
+one_shot = true
+
+[node name="walk2" type="Timer" parent="." unique_id=872285765]
+wait_time = 0.5
 one_shot = true
 
 [node name="Bomb_delay" type="Timer" parent="." unique_id=1078977414]
@@ -508,11 +572,33 @@ wait_time = 10.0
 [node name="c2" type="Timer" parent="." unique_id=1132650335]
 
 [node name="smash2" type="Timer" parent="." unique_id=123672929]
-wait_time = 1.2999999999999998
+wait_time = 3.4
 one_shot = true
 
 [node name="melee" type="Timer" parent="." unique_id=756741677]
 one_shot = true
+
+[node name="right" type="Marker2D" parent="." unique_id=869773395]
+position = Vector2(12, -6)
+
+[node name="left" type="Marker2D" parent="." unique_id=1373064194]
+position = Vector2(12, -6)
+
+[node name="beam" type="AudioStreamPlayer2D" parent="." unique_id=1483117811]
+stream = ExtResource("4_fl70q")
+
+[node name="hurt" type="AudioStreamPlayer2D" parent="." unique_id=797260472]
+stream = ExtResource("5_nuwfj")
+
+[node name="walk" type="AudioStreamPlayer2D" parent="." unique_id=433691911]
+stream = ExtResource("6_ot3je")
+autoplay = true
+
+[node name="hurtB" type="AudioStreamPlayer2D" parent="." unique_id=643706806]
+stream = ExtResource("7_tcgrh")
+
+[node name="smash3" type="AudioStreamPlayer2D" parent="." unique_id=1122792909]
+stream = ExtResource("8_gtfqc")
 
 [connection signal="area_entered" from="hitbox2" to="." method="_on_hitbox_2_area_entered"]
 [connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]

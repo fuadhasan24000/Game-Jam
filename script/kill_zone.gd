@@ -13,4 +13,7 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
+		GameManager.die_delay= true
+		await get_tree().create_timer(2).timeout
+		GameManager.die_delay= false
 		get_tree().reload_current_scene()

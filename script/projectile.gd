@@ -7,7 +7,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var explosion: AnimatedSprite2D = $explosion
 @onready var sprite_2d: Sprite2D = $Sprite2D
 
-
+var blast = false
 var time: float
 func _ready():
 	explosion.hide()
@@ -24,6 +24,9 @@ func _physics_process(delta):
 		sprite_2d.hide()
 		explosion.show()
 		explosion.play("explotion")
+		if not blast:
+			$blast.play()
+			blast = true
 		await get_tree().create_timer(.5).timeout
 		
 		queue_free()

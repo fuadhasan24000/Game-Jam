@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://6gu2akic43nm"]
+
+[ext_resource type="FontFile" uid="uid://c2a0ljdicyp7d" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="1_hscqg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_13vsk"]
+font = ExtResource("1_hscqg")
+font_size = 28
+
+[node name="dialogue manager1" type="Control" unique_id=283051947]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1340666292]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=872199899]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="text" type="Label" parent="." unique_id=5589652]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_13vsk")
+autowrap_mode = 3

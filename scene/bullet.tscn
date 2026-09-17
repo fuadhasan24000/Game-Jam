@@ -6,17 +6,17 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_xtwfg"]
 radius = 7.0
 
-[node name="bullet" type="Node2D" unique_id=1434862466]
+[node name="bullet" type="Node2D" unique_id=1434862466 groups=["gun"]]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_xw300")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=429142138]
 texture = ExtResource("1_qwydi")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1397152133 groups=["melee1"]]
+[node name="Area2D" type="Area2D" parent="." unique_id=1397152133 groups=["gun"]]
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2106727548 groups=["melee1"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2106727548 groups=["gun"]]
 position = Vector2(5, 0)
 shape = SubResource("CircleShape2D_xtwfg")
 

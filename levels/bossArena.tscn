@@ -1,45 +1,19 @@
 [gd_scene format=3 uid="uid://e30ggneenni"]
 
-[ext_resource type="Texture2D" uid="uid://wwpiqpbumuus" path="res://assets/bg/Glacial-mountains-parallax-background_vnitti/Layers/sky.png" id="1_dskkt"]
-[ext_resource type="Texture2D" uid="uid://dg5gja0ona630" path="res://assets/bg/Glacial-mountains-parallax-background_vnitti/Layers/glacial_mountains_lightened.png" id="2_a3tkp"]
-[ext_resource type="Texture2D" uid="uid://cne8ycboqyadt" path="res://assets/bg/Glacial-mountains-parallax-background_vnitti/Layers/glacial_mountains.png" id="3_ql53e"]
-[ext_resource type="Texture2D" uid="uid://bnqoog62t30no" path="res://assets/bg/Glacial-mountains-parallax-background_vnitti/Layers/clouds_mg_1.png" id="4_rd5rb"]
-[ext_resource type="Texture2D" uid="uid://bld3hac0ibev6" path="res://assets/magic/TILED_files/Flora2x32.png" id="5_rd5rb"]
-[ext_resource type="Script" uid="uid://b5fuxr0oie1gc" path="res://levels/character_body_2d.gd" id="5_tebq7"]
-[ext_resource type="Texture2D" uid="uid://cadiyp80rnvgr" path="res://assets/Foozle_2DC0001_Cute_Robot/Assets/Walk/Armature_Walking_00.png" id="6_h7b1t"]
+[ext_resource type="Texture2D" uid="uid://dbn0gkmdpfn5h" path="res://assets/bg/Glacial-mountains-parallax-background_vnitti/Layers/sky.png" id="1_dskkt"]
+[ext_resource type="Script" uid="uid://c2571hmjegouk" path="res://script/boss_arena.gd" id="1_lanta"]
+[ext_resource type="Texture2D" uid="uid://dkrrung8hgme3" path="res://assets/bg/Glacial-mountains-parallax-background_vnitti/Layers/glacial_mountains_lightened.png" id="2_a3tkp"]
+[ext_resource type="Texture2D" uid="uid://dqetkkfrg4fxb" path="res://assets/bg/Glacial-mountains-parallax-background_vnitti/Layers/glacial_mountains.png" id="3_ql53e"]
+[ext_resource type="Texture2D" uid="uid://ckwtq4af7jgd3" path="res://assets/bg/Glacial-mountains-parallax-background_vnitti/Layers/clouds_mg_1.png" id="4_rd5rb"]
+[ext_resource type="Texture2D" uid="uid://b20461s6lycoq" path="res://assets/magic/TILED_files/Flora2x32.png" id="5_rd5rb"]
 [ext_resource type="PackedScene" uid="uid://bbt8m2ulga7ry" path="res://scene/grass small platform.tscn" id="6_tebq7"]
-[ext_resource type="Texture2D" uid="uid://041vqpufkpe3" path="res://assets/Foozle_2DC0001_Cute_Robot/Assets/Walk/Armature_Walking_01.png" id="7_nfedr"]
-[ext_resource type="Texture2D" uid="uid://x4oppf3ysqou" path="res://assets/Foozle_2DC0001_Cute_Robot/Assets/Walk/Armature_Walking_02.png" id="8_2jrtm"]
-[ext_resource type="Texture2D" uid="uid://bpujvfhmqc81j" path="res://assets/Foozle_2DC0001_Cute_Robot/Assets/Walk/Armature_Walking_03.png" id="9_qnftu"]
-[ext_resource type="Texture2D" uid="uid://s11vtwu2gfa2" path="res://assets/Foozle_2DC0001_Cute_Robot/Assets/Walk/Armature_Walking_04.png" id="10_o7i8v"]
-[ext_resource type="Texture2D" uid="uid://by4hvc1npijro" path="res://assets/magic/TILED_files/Tileset.png" id="11_a3tkp"]
-[ext_resource type="Texture2D" uid="uid://dk7s61g7h1j5o" path="res://assets/magic/TILED_files/Objects.png" id="12_ql53e"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_p3bar"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("6_h7b1t")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_nfedr")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8_2jrtm")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_qnftu")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_o7i8v")
-}],
-"loop": 1,
-"name": &"default",
-"speed": 10.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cditv"]
-size = Vector2(7, 18)
+[ext_resource type="PackedScene" uid="uid://cudoy1vpa4pah" path="res://scene/player.tscn" id="9_qowns"]
+[ext_resource type="PackedScene" uid="uid://qnv1jg1qix2d" path="res://scene/boss.tscn" id="10_ro0c4"]
+[ext_resource type="Texture2D" uid="uid://bs1sk1y57jgcn" path="res://assets/magic/TILED_files/Tileset.png" id="11_a3tkp"]
+[ext_resource type="Script" uid="uid://b3n7skuca88u5" path="res://script/camera_2d.gd" id="11_xu1xh"]
+[ext_resource type="PackedScene" uid="uid://xttm2pn7jfhj" path="res://scene/ui.tscn" id="12_8xmjy"]
+[ext_resource type="Texture2D" uid="uid://whhb0f1erc77" path="res://assets/magic/TILED_files/Objects.png" id="12_ql53e"]
+[ext_resource type="AudioStream" uid="uid://44askyi8evwr" path="res://music/bgm.mp3" id="14_vftnv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tebq7"]
 texture = ExtResource("11_a3tkp")
@@ -3289,6 +3263,24 @@ sources/0 = SubResource("TileSetAtlasSource_ql53e")
 sources/1 = SubResource("TileSetAtlasSource_rd5rb")
 
 [node name="Node2D" type="Node2D" unique_id=941876102]
+script = ExtResource("1_lanta")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=427861778]
+
+[node name="FadeOverlay" type="ColorRect" parent="CanvasLayer" unique_id=1024530870]
+visible = false
+z_index = 10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -600.0
+offset_top = -508.0
+offset_right = 556.0
+offset_bottom = 477.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=1193144941]
 
@@ -3339,26 +3331,6 @@ position = Vector2(83.830025, 17.33025)
 scale = Vector2(0.47327074, 0.55393296)
 texture = ExtResource("5_rd5rb")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1784361660]
-z_index = 1
-position = Vector2(1, 7)
-script = ExtResource("5_tebq7")
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=377869691]
-position = Vector2(-46, -5)
-zoom = Vector2(4, 4)
-position_smoothing_enabled = true
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=482030361]
-position = Vector2(-54.000015, 38.000004)
-scale = Vector2(0.06547608, 0.0577957)
-sprite_frames = SubResource("SpriteFrames_p3bar")
-autoplay = "default"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1937262826]
-position = Vector2(-54, 35)
-shape = SubResource("RectangleShape2D_cditv")
-
 [node name="TileMap4" type="TileMap" parent="." unique_id=1667211705]
 tile_set = SubResource("TileSet_rd3j5")
 format = 2
@@ -3386,3 +3358,22 @@ layer_0/tile_data = PackedInt32Array(196602, 2818049, 16, 262138, 2818049, 17, 3
 
 [node name="AnimatableBody2D" parent="." unique_id=116708457 instance=ExtResource("6_tebq7")]
 position = Vector2(98, 37)
+
+[node name="player" parent="." unique_id=2000411160 instance=ExtResource("9_qowns")]
+position = Vector2(-54, 44)
+scale = Vector2(0.2, 0.2)
+
+[node name="Camera2D" type="Camera2D" parent="player" unique_id=377869691 groups=["camera"]]
+position = Vector2(44.999985, -209.99998)
+scale = Vector2(4.9999995, 4.9999995)
+zoom = Vector2(4, 4)
+position_smoothing_enabled = true
+script = ExtResource("11_xu1xh")
+
+[node name="Boss" parent="." unique_id=1312284238 instance=ExtResource("10_ro0c4")]
+position = Vector2(84, 35)
+
+[node name="UI" parent="." unique_id=193987201 instance=ExtResource("12_8xmjy")]
+
+[node name="music" type="AudioStreamPlayer2D" parent="." unique_id=1525806574]
+stream = ExtResource("14_vftnv")

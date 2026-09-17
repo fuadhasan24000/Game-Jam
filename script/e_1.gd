@@ -2,7 +2,6 @@ extends CharacterBody2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 const BULLET = preload("res://scene/bulletE.tscn")
 var health = 60
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var isdamaged = false
 var isdead = false
 var speed = 100
@@ -11,6 +10,8 @@ var isattacking = false
 @onready var left: RayCast2D = $left
 @onready var below: RayCast2D = $below
 @onready var enemy: CharacterBody2D = $"."
+
+
 @onready var ray: RayCast2D = $ray
 @onready var timer: Timer = $Timer
 
@@ -32,9 +33,6 @@ var patrol_direction := 1.0
 
 func _physics_process(delta: float) -> void:
 	animated_sprite_2d.material.set_shader_parameter("is_damaged", isdamaged)
-	if not is_on_floor():
-		velocity.y += gravity * delta
-
 	match state:
 		State.PATROL:
 			if not isdamaged:
@@ -54,8 +52,10 @@ func _physics_process(delta: float) -> void:
 				animated_sprite_2d.flip_h = true
 
 			velocity.x = direction * speed
+			move_and_slide()
 		State.SHOOT:
 			if player and timer.is_stopped():
+				$plasma.play()
 				var direction = sign(player.global_position.x - global_position.x)
 				var angle = (player.global_position - global_position).angle()
 				animated_sprite_2d.flip_h = direction <0
@@ -65,40 +65,30 @@ func _physics_process(delta: float) -> void:
 				bullet_instance.rotation = angle
 				timer.start()
 				animated_sprite_2d.play("fire")
-				
-
-	move_and_slide()
+	
 
 
 
 
-func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("melee1"):
-		health= health - 20
-		print(health)
-		isdamaged =true
-		
-		if health <= 0:
-			isdead= true
-			animated_sprite_2d.play("death")
-		if not isdead:
-			animated_sprite_2d.play("damage")
-			print("blas")
+
 		
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	if area.is_in_group("melee1"):
-		print(health)
-		health= health - 20
+	if area.is_in_group("melee1") or area.is_in_group("gun"):
 		isdamaged =true
-
+		if area.is_in_group("melee1"):
+			health= health - 30
+			$hurt.play()
+		else:
+			health= health - 15
 		
 		if health <= 0:
 			isdead= true
 			animated_sprite_2d.play("death")
 			await get_tree().create_timer(.5).timeout
 			GameManager.scraps+=10
+			GameManager.canvas_scraps+=10
 			queue_free()
-		if not isdead:
+		else:
 			animated_sprite_2d.play("damage")
 			await get_tree().create_timer(.5).timeout
 			isdamaged= false

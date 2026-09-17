@@ -6,22 +6,26 @@ extends CharacterBody2D
 const BULLET = preload("res://scene/bullet.tscn")
 @onready var dashd: Timer = $dashd
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-var health = 10000
+
 const melee_damage = 20 
 var isattaking = false;
 var SPEED =110
-const JUMP_VELOCITY = -300
+const JUMP_VELOCITY = -350
 var isshooting = false
 var isdamaged = false
 var isdead = false
 var isdashing = false
 var isfacing:int
 var t: float
+var is_walking = false
 @onready var melee: Timer = $melee
 @onready var gun: Timer = $gun
 @onready var damage: Timer = $damage
 @onready var death: Timer = $death
 @onready var dash: Timer = $dash
+@onready var sword: AudioStreamPlayer2D = $sword
+@onready var plasma: AudioStreamPlayer2D = $plasma
+
 
 
 	
@@ -49,24 +53,31 @@ func _physics_process(delta: float) -> void:
 		isfacing = -1
 	if Input.is_action_just_pressed("attack melee") and GameManager.meleeG:
 		animation.play("attack(melee)")
-		melee.start()
+		sword.play()
 		isattaking = true 
+		melee.start()
 		$attack_area/CollisionShape2D.disabled = false
+		await get_tree().create_timer(.5).timeout
+		sword.stop()
 	if Input.is_action_just_pressed("fire") and GameManager.gunG:
 		animation.play("attack(gun)")
 		gun.start()
 		isshooting= true
-
+		plasma.play()
 	if isattaking==false and isshooting==false and isdamaged==false and isdead==false and isdashing == false:
 		if is_on_floor():
 			if direction !=0 and Input.is_action_pressed("run") and GameManager.runG:
 				animation.play("run")
+				is_walking =true
 			elif direction !=0 :
 				animation.play("walk")
+				is_walking =true
 			else:
 				animation.play("idle")
+				is_walking =false
 		else:
 			animation.play("jump")
+			
 	
 	if direction and Input.is_action_just_pressed("dash") and dash.is_stopped() and GameManager.dashG:
 		dash.start()
@@ -100,18 +111,22 @@ func _physics_process(delta: float) -> void:
 
 func _on_hurtbox_area_entered(area: Area2D) -> void:
 	if area.is_in_group("harm"):
-		health= health - 20
-		print(health)
+		GameManager.player_health-= 20
 		isdamaged =true
 		
-		if health <= 0:
+		if GameManager.player_health <= 0:
 			isdead= true
 			animation.play("death")
-			death.start()
-		if not isdead:
+			await get_tree().create_timer(1).timeout
+			GameManager.die_delay= true
+			await get_tree().create_timer(2).timeout
+			GameManager.die_delay= false
+			get_tree().reload_current_scene()
+		else:
 			animation.play("damage")
+			$hurt.play()
 			damage.start()
-	if area.is_in_group("box"):
+	elif area.is_in_group("box"):
 		GameManager.scraps += 20
 		area.queue_free()
 		print(GameManager.scraps)

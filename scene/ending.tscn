@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://dy4v8oorvqsda"]
+
+[ext_resource type="Script" uid="uid://c5lfsnsrlbolk" path="res://script/ending.gd" id="1_pq27v"]
+[ext_resource type="FontFile" uid="uid://deboi28ohk5mi" path="res://assets/fonts/PixelOperator8.ttf" id="1_sgciq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xtwfg"]
+font = ExtResource("1_sgciq")
+font_size = 61
+outline_size = 1
+
+[node name="ending" type="Control" unique_id=451050684]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_pq27v")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1401529079]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1275686150]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.047070675, 0.41025683, 0.93322456, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=55096225]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -41.5
+offset_bottom = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Archeon defeated
+
+Game complete"
+label_settings = SubResource("LabelSettings_xtwfg")
+horizontal_alignment = 1
+autowrap_mode = 3

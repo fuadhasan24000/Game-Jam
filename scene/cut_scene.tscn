@@ -9,6 +9,12 @@ script/source = "extends Control
 const LEVEL_1_PATH: String = \"res://levels/level_zero.tscn\"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	GameManager.story = true
+	GameManager.meleeG = false
+	GameManager.runG = false
+	GameManager.gunG = false
+	GameManager.dashG = false
+	GameManager.jumpG = false
 	video_player.visible = false # Replace with function body.
 	await get_tree().create_timer(2).timeout
 	video_player.visible = true

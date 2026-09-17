@@ -10,6 +10,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if box and Input.is_action_just_pressed("enter"):
 		GameManager.scraps+= 20
+		GameManager.canvas_scraps += 20
 		print(GameManager.scraps)
 		queue_free()
 	

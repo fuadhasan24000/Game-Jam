@@ -24,13 +24,18 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var detection_area: Area2D = $DetectionArea
 @onready var sprite: Sprite2D = $Sprite2D
+func _ready() -> void:
+	add_to_group("enemies")
+		# Don't collide with other enemies
+	for enemy in get_tree().get_nodes_in_group("enemies"):
+		if enemy != self and enemy is CharacterBody2D:
+			add_collision_exception_with(enemy)
+			enemy.add_collision_exception_with(self)
 func _process(delta: float) -> void:
 	animated_sprite_2d.material.set_shader_parameter("is_damaged", isdamaged)
 	
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
-		velocity.y += gravity * delta
 
 	match state:
 		State.PATROL:
@@ -75,15 +80,20 @@ func _on_detection_area_body_exited(body: Node2D) -> void:
 
 
 func _on_hitbox_area_entered(area: Area2D) -> void:
-	if area.is_in_group("melee1"):
-		health= health - 20
+	if area.is_in_group("melee1") or area.is_in_group("gun"):
 		isdamaged =true
-
+		if area.is_in_group("melee1"):
+			health= health - 30
+			$hurt.play()
+		else:
+			health= health - 15
+			
 		if health <= 0:
 			isdead= true
 			animated_sprite_2d.play("death")
 			await get_tree().create_timer(.5).timeout
 			GameManager.scraps+= 5
+			GameManager.canvas_scraps+=5
 			queue_free()
 		if not isdead:
 			animated_sprite_2d.play("damage")
